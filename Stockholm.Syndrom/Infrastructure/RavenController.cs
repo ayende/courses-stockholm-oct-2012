@@ -29,7 +29,7 @@ namespace Stockholm.Syndrom.Infrastructure
 						.RegisterListener(new AuditListener())
 						.Initialize();
 
-					//IndexCreation.CreateIndexes(typeof(RavenController).Assembly, store);
+					IndexCreation.CreateIndexes(typeof(RavenController).Assembly, store);
 					return store;
 				});
 

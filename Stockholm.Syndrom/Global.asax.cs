@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Stockholm.Syndrom.Infrastructure;
 
 namespace Stockholm.Syndrom
 {
@@ -14,6 +15,7 @@ namespace Stockholm.Syndrom
 	{
 		protected void Application_Start()
 		{
+			var _ = RavenController.DocumentStore;
 			AreaRegistration.RegisterAllAreas();
 
 			WebApiConfig.Register(GlobalConfiguration.Configuration);
