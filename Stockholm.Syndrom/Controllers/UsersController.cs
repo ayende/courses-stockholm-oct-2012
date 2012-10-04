@@ -1,4 +1,5 @@
-﻿using System.Media;
+﻿using System.Linq;
+using System.Media;
 using Stockholm.Syndrom.Infrastructure;
 using Stockholm.Syndrom.Models;
 
@@ -6,6 +7,15 @@ namespace Stockholm.Syndrom.Controllers
 {
 	public class UsersController : RavenController
 	{
+		public object Query(string q)
+		{
+			var results = from user in Session.Query<User>()
+						  where user.Name == q
+			              select user;
+
+			return Json(results);
+		}
+
 		public void Update(int id)
 		{
 			Session.Advanced.UseOptimisticConcurrency = true;
