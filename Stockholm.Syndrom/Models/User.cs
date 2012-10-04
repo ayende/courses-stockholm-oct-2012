@@ -7,23 +7,17 @@ namespace Stockholm.Syndrom.Models
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
-		public List<Tagged<Nick>> Nicks { get; set; }
+
+		public List<string> WatchedMovieIds { get; set; }
+		public List<string> ReadBookIds { get; set; } 
 
 		public User()
 		{
-			Nicks = new List<Tagged<Nick>>();
+
+			WatchedMovieIds = new List<string>();
+			ReadBookIds = new List<string>();
 		}
 	}
 
-	public class Nick
-	{
-		public string Name { get; set; }
-		public string For { get; set; }
-	}
-
-	public class Tagged<T>
-	{
-		public string[] Tags { get; set; }
-		public T Value { get; set; }
-	}
+	
 }

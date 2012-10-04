@@ -6,19 +6,20 @@ namespace Stockholm.Syndrom.Controllers
 {
 	public class UsersController : RavenController
 	{
-		 public object List(string user)
-		 {
-			 var load = Session.Load<User>(user);
-			 return Xml(load);
-		 }
-
-		 public object Save()
-		 {
-			 var user = new User();
-
+		public object Add(string name)
+		{
+			var user = new User
+				{
+					Name = name,
+				};
 			Session.Store(user);
+			return Json(user.Id);
+		}
 
-			 return Json("Let us try this");
-		 }
+		public object Read(int id, string bookId)
+		{
+			Session.Load<User>(id).ReadBookIds.Add(bookId);
+			return Json("Recorded that you read this book");
+		}
 	}
 }
