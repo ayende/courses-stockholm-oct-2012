@@ -1,4 +1,4 @@
-﻿using Stockholm.Syndrom.Indexes;
+﻿using Stockholm.Syndrom.Indexes; 
 using Stockholm.Syndrom.Infrastructure;
 using Stockholm.Syndrom.Models;
 using Raven.Client.Linq;
@@ -9,6 +9,25 @@ namespace Stockholm.Syndrom.Controllers
 {
 	public class AuthorsController : RavenController
 	{
+		public object Stats()
+		{
+			var results = Session
+					.Query<Books_Authors.ReduceResult, Books_Authors>()
+						.Include(x=>x.AuthorId)
+				.ToList();
+			var readableResults = from result in results
+			                      select new
+				                      {
+					                      Author = Session.Load<Author>(result.AuthorId).Name,
+					                      Books = result.Count
+				                      };
+			return Json(new
+				{
+					Results = readableResults.ToArray(),
+					RequestCount = Session.Advanced.NumberOfRequests
+				});
+		}
+
 		public object Generate()
 		{
 			var weber = new Author

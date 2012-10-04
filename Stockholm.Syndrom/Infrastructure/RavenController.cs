@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using Raven.Client;
 using Raven.Client.Document;
@@ -25,6 +26,16 @@ namespace Stockholm.Syndrom.Infrastructure
 						{
 							Url = "http://localhost:8080",
 							DefaultDatabase = "Stockholm",
+							Conventions =
+								{
+									MaxNumberOfRequestsPerSession =2,
+									FindTypeTagName = type =>
+										{
+											if(type == typeof(Dictionary<string,object>))
+												return "Params";
+											return DocumentConvention.DefaultTypeTagName(type);
+										}
+								}
 						}
 						.RegisterListener(new AuditListener())
 						.Initialize();

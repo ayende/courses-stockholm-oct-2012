@@ -116,10 +116,13 @@
   <ItemGroup>
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\Param.cs" />
+    <Compile Include="Controllers\ParamsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Indexes\Books_Authors.cs" />
     <Compile Include="Indexes\Books_Ratings.cs" />
     <Compile Include="Indexes\Books_Search.cs" />
     <Compile Include="Indexes\Users_CountByCompany.cs" />
