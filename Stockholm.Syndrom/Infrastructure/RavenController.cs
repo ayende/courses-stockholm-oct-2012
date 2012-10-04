@@ -26,6 +26,7 @@ namespace Stockholm.Syndrom.Infrastructure
 							Url = "http://localhost:8080",
 							DefaultDatabase = "Stockholm",
 						}
+						.RegisterListener(new AuditListener())
 						.Initialize();
 
 					//IndexCreation.CreateIndexes(typeof(RavenController).Assembly, store);

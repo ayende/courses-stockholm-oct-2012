@@ -119,6 +119,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\AuditListener.cs" />
     <Compile Include="Infrastructure\XmlResult.cs" />
     <Compile Include="Infrastructure\RavenController.cs" />
     <Compile Include="Models\Book.cs" />
