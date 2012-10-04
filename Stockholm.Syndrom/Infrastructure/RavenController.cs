@@ -13,6 +13,11 @@ namespace Stockholm.Syndrom.Infrastructure
 			return base.Json(data, contentType, contentEncoding, JsonRequestBehavior.AllowGet);
 		}
 
+		protected ActionResult Xml(object val)
+		{
+			return new XmlResult(val);
+		}
+
 		private static readonly Lazy<IDocumentStore> documentStore =
 			new Lazy<IDocumentStore>(() =>
 				{
