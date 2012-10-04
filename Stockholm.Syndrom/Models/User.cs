@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Stockholm.Syndrom.Models
 {
@@ -6,11 +7,23 @@ namespace Stockholm.Syndrom.Models
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
-		public List<string> Nicks { get; set; }
+		public List<Tagged<Nick>> Nicks { get; set; }
 
 		public User()
 		{
-			Nicks = new List<string>();
+			Nicks = new List<Tagged<Nick>>();
 		}
+	}
+
+	public class Nick
+	{
+		public string Name { get; set; }
+		public string For { get; set; }
+	}
+
+	public class Tagged<T>
+	{
+		public string[] Tags { get; set; }
+		public T Value { get; set; }
 	}
 }
