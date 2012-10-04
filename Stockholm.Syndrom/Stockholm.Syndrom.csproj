@@ -114,12 +114,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Indexes\Books_Ratings.cs" />
+    <Compile Include="Indexes\Books_Search.cs" />
+    <Compile Include="Indexes\Users_CountByCompany.cs" />
+    <Compile Include="Indexes\Users_Search.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Infrastructure\AuditListener.cs" />
     <Compile Include="Infrastructure\XmlResult.cs" />
     <Compile Include="Infrastructure\RavenController.cs" />

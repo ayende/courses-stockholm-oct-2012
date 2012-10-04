@@ -6,7 +6,7 @@ namespace Stockholm.Syndrom.Models
 	{
 		public string Id { get; set; }
 		public string Name { get; set; }
-		public string[] Authors { get; set; }
+		public List<string> Authors { get; set; }
 
 		public List<Review> Reviews { get; set; }
 
@@ -19,6 +19,13 @@ namespace Stockholm.Syndrom.Models
 		public Book()
 		{
 			Reviews = new List<Review>();
+			Authors = new List<string>();
 		}
+	}
+
+	public class Author
+	{
+		public string Id { get; set; }
+		public string Name { get; set; }
 	}
 }

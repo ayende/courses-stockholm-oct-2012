@@ -20,7 +20,7 @@ namespace Stockholm.Syndrom.Controllers
 		public object BooksByAuthorCount(int count)
 		{
 			var books = from book in Session.Query<Book>()
-						where book.Authors.Length > count
+						where book.Authors.Count > count
 						select book;
 
 			return Json(books);
@@ -31,7 +31,7 @@ namespace Stockholm.Syndrom.Controllers
 			var book = new Book
 				{
 					Name = name,
-					Authors = authors
+					Authors = authors.ToList()
 				};
 			Session.Store(book);
 

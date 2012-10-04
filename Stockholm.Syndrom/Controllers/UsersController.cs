@@ -1,17 +1,41 @@
 ﻿using System.Linq;
 using System.Media;
+using System.Text;
+using Stockholm.Syndrom.Indexes;
 using Stockholm.Syndrom.Infrastructure;
 using Stockholm.Syndrom.Models;
+using Raven.Client;
 
 namespace Stockholm.Syndrom.Controllers
 {
 	public class UsersController : RavenController
 	{
-		public object Query(string q)
+		public object Query(string terms)
 		{
-			var results = from user in Session.Query<User>()
-						  where user.Name == q
-			              select user;
+			var q = Session.Query<Users_Search.SearchResult, Users_Search>()
+				.Search(x => x.Query, terms);
+
+			var results = q
+				.As<User>()
+				.ToList();
+
+			if (results.Count == 0)
+			{
+				var suggest = q.Suggest();
+
+				if (suggest.Suggestions.Length == 0)
+				{
+					return Json("Not a clue what to do");
+				}
+				if (suggest.Suggestions.Length <= 3)
+				{
+					return Query(string.Join(" ", suggest.Suggestions));
+				}
+				return Json(new
+					{
+						DidYouMean = suggest.Suggestions
+					});
+			}
 
 			return Json(results);
 		}
