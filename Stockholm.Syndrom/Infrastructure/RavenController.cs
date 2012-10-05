@@ -26,6 +26,7 @@ namespace Stockholm.Syndrom.Infrastructure
 				{
 					DocumentStore store = new DocumentStore
 						{
+							//LastEtagHolder = new UserLastEtagHolder(),
 							Url = "http://localhost:8080",
 							DefaultDatabase = "Stockholm",
 							Conventions =

@@ -117,8 +117,11 @@
     <Compile Include="Controllers\Books2Controller.cs" />
     <Compile Include="Controllers\AuthorsController.cs" />
     <Compile Include="Controllers\BooksController.cs" />
+    <Compile Include="Controllers\ConconrrencyController.cs" />
+    <Compile Include="Controllers\FacetsController.cs" />
     <Compile Include="Controllers\Param.cs" />
     <Compile Include="Controllers\ParamsController.cs" />
+    <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -133,6 +136,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Infrastructure\AuditListener.cs" />
+    <Compile Include="Infrastructure\UserLastEtagHolder.cs" />
     <Compile Include="Infrastructure\XmlResult.cs" />
     <Compile Include="Infrastructure\RavenController.cs" />
     <Compile Include="Models\Book.cs" />
