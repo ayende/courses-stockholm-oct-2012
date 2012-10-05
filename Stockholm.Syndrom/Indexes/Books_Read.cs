@@ -9,7 +9,7 @@ namespace Stockholm.Syndrom.Indexes
 		public class ReduceResult
 		{
 			public string BookId { get; set; }
-			public string Authors { get; set; }
+			public string[] Authors { get; set; }
 			public string BookName { get; set; }
 			public string[] ReadBy { get; set; }
 		}
@@ -47,10 +47,32 @@ namespace Stockholm.Syndrom.Indexes
 						 select new
 							 {
 								 BookId = g.Key,
-								 Authors = g.SelectMany(x=>x.Authors),
-								 g.FirstOrDefault(x=>x.BookName!=null).BookName,
-								 ReadBy = g.SelectMany(x=>x.ReadBy)
+								 Authors = g.SelectMany(x => x.Authors),
+								 g.FirstOrDefault(x => x.BookName != null).BookName,
+								 ReadBy = g.SelectMany(x => x.ReadBy)
 							 };
+
+			TransformResults = (database, results) =>
+							   from result in results
+							   let authors = database.Load<Author>(result.Authors)
+							   let users = database.Load<User>(result.ReadBy)
+							   select new
+								   {
+									   result.BookId,
+									   result.BookName,
+									   Authors = from author in authors
+												 select new
+													 {
+														 author.Id,
+														 author.Name
+													 },
+									   ReadBy = from user in users
+												select new
+													{
+														user.Id,
+														user.Name
+													}
+								   };
 		}
 	}
 }
