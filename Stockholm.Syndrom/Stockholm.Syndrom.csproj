@@ -126,6 +126,7 @@
     <Compile Include="Indexes\All_Search.cs" />
     <Compile Include="Indexes\Books_Authors.cs" />
     <Compile Include="Indexes\Books_Ratings.cs" />
+    <Compile Include="Indexes\Books_Read.cs" />
     <Compile Include="Indexes\Books_Search.cs" />
     <Compile Include="Indexes\Users_CountByCompany.cs" />
     <Compile Include="Indexes\Users_Search.cs">
