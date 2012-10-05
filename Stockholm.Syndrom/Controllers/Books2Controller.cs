@@ -9,6 +9,51 @@ namespace Stockholm.Syndrom.Controllers
 {
 	public class Books2Controller : RavenController
 	{
+		public object Easy(string q)
+		{
+			var results = Session.Query<Book, Books_Search>()
+				.Search(x => x.Name, q)
+				.Lazily();
+
+			var authors = Session.Query<Author, Authors_Search>()
+				.Search(x => x.Name, q)
+				.Lazily();
+
+
+			return Json(results.Value.Cast<object>().Concat(authors.Value));
+		}
+
+		public object Easier(string q)
+		{
+			var query = Session.Query<All_Search.SearchResult, All_Search>()
+				.Search(x => x.Name, q);
+
+			var results = query
+				.As<object>()
+				.ToList();
+
+			if (results.Count == 0)
+			{
+				var suggest = query.Suggest();
+
+				if (suggest.Suggestions.Length == 0)
+				{
+					return Json("Not a clue what to do");
+				}
+				if (suggest.Suggestions.Length <= 3)
+				{
+					return Easier(string.Join(" ", suggest.Suggestions));
+				}
+				return Json(new
+				{
+					DidYouMean = suggest.Suggestions
+				});
+			}
+
+		
+			return Json(results);
+		}
+
 		public object Book(int id)
 		{
 			var book = Session.Advanced.Lazily.Load<Book>(id);

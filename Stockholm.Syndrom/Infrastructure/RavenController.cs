@@ -30,7 +30,6 @@ namespace Stockholm.Syndrom.Infrastructure
 							DefaultDatabase = "Stockholm",
 							Conventions =
 								{
-									MaxNumberOfRequestsPerSession = 2,
 									FindTypeTagName = type =>
 										{
 											if (type == typeof (Dictionary<string, object>))
