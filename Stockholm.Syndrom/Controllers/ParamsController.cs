@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Raven.Abstractions.Data;
 using Stockholm.Syndrom.Infrastructure;
 using Stockholm.Syndrom.Models;
 using System.Linq;
@@ -7,6 +8,25 @@ namespace Stockholm.Syndrom.Controllers
 {
 	public class ParamsController : RavenController
 	{
+		public void Update()
+		{
+			DocumentStore.DatabaseCommands.UpdateByIndex(
+				"Raven/DocumentsByEntityName",
+				new IndexQuery{ Query = "Tag:Params"}, 
+				new ScriptedPatchRequest
+					{
+						Script = @"
+						
+						if(this.InstructionName == null || this.InstructionName == '')
+						{
+							this.InstructionName = 'Something';
+						}
+						
+						"
+					}
+			);
+		}
+
 		public object Load(int id)
 		{
 			dynamic param = Session.Load<Param>(id);
