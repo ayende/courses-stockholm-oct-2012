@@ -1,4 +1,5 @@
-﻿using Stockholm.Syndrom.Infrastructure;
+﻿using System.Collections.Generic;
+using Stockholm.Syndrom.Infrastructure;
 using Stockholm.Syndrom.Models;
 using System.Linq;
 
@@ -6,7 +7,40 @@ namespace Stockholm.Syndrom.Controllers
 {
 	public class ParamsController : RavenController
 	{
-		 public object SaveBetter()
+		public object Load(int id)
+		{
+			dynamic param = Session.Load<Param>(id);
+
+			return Json(new
+				{
+					param.InstructionName,
+					param.Name,
+					param.First,
+					param.Age,
+					param.Strange
+				});
+		}
+
+		public object Query(string q, string[] fields)
+		{
+			var lq = Session.Advanced.LuceneQuery<Param>()
+				.Where(q)
+				.SelectFields<Param>(fields)
+				.ToList();
+
+
+			return Json(lq.Select((dynamic x)=>
+				{
+					var dictionary = new Dictionary<string, object>();
+					foreach (var field in fields)
+					{
+						dictionary[field] = x[field];
+					}
+					return dictionary;
+				}));
+		}
+
+		public object SaveBetter()
 		 {
 			 dynamic entity = new Param
 				 {

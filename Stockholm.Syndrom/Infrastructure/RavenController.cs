@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using Raven.Client;
 using Raven.Client.Document;
 using Raven.Client.Indexes;
+using Stockholm.Syndrom.Controllers;
+using Stockholm.Syndrom.Models;
 
 namespace Stockholm.Syndrom.Infrastructure
 {
@@ -22,24 +24,34 @@ namespace Stockholm.Syndrom.Infrastructure
 		private static readonly Lazy<IDocumentStore> documentStore =
 			new Lazy<IDocumentStore>(() =>
 				{
-					var store = new DocumentStore
+					DocumentStore store = new DocumentStore
 						{
 							Url = "http://localhost:8080",
 							DefaultDatabase = "Stockholm",
 							Conventions =
 								{
-									MaxNumberOfRequestsPerSession =2,
+									MaxNumberOfRequestsPerSession = 2,
 									FindTypeTagName = type =>
 										{
-											if(type == typeof(Dictionary<string,object>))
+											if (type == typeof (Dictionary<string, object>))
 												return "Params";
 											return DocumentConvention.DefaultTypeTagName(type);
 										}
 								}
-						}
+						};
+
+					var validationListener = new ValidationListener();
+					validationListener.Register<User>(user=>
+						{
+							if (string.IsNullOrWhiteSpace(user.Name))
+								throw new Exception("User name can not be empty");
+						});
+					store.RegisterListener(validationListener);
+
+						
+					store
 						.RegisterListener(new AuditListener())
 						.Initialize();
-
 					IndexCreation.CreateIndexes(typeof(RavenController).Assembly, store);
 					return store;
 				});

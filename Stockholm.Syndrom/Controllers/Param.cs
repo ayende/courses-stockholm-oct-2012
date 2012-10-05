@@ -18,6 +18,17 @@ namespace Stockholm.Syndrom.Controllers
 			return vals.TryGetValue(binder.Name, out result);
 		}
 
+		public object this[string key]
+		{
+			get
+			{
+				object value;
+				vals.TryGetValue(key, out value);
+				return value;
+			}
+			set { vals[key] = value; }
+		}
+
 		public override bool TrySetMember(SetMemberBinder binder, object value)
 		{
 			if(binder.Name == "Id")
@@ -62,7 +73,7 @@ namespace Stockholm.Syndrom.Controllers
 		public bool BeforeStore(string key, object entityInstance, RavenJObject metadata, RavenJObject original)
 		{
 			List<Action<object>> list;
-			if (validations.TryGetValue(entityInstance.GetType(), out list))
+			if (validations.TryGetValue(entityInstance.GetType(), out list) != false)
 			{
 				foreach (var validation in list)
 				{
