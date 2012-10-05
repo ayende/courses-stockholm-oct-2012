@@ -13,17 +13,10 @@ namespace Stockholm.Syndrom.Controllers
 		{
 			var results = Session
 					.Query<Books_Authors.ReduceResult, Books_Authors>()
-						.Include(x=>x.AuthorId)
 				.ToList();
-			var readableResults = from result in results
-			                      select new
-				                      {
-					                      Author = Session.Load<Author>(result.AuthorId).Name,
-					                      Books = result.Count
-				                      };
 			return Json(new
 				{
-					Results = readableResults.ToArray(),
+					Results = results.ToArray(),
 					RequestCount = Session.Advanced.NumberOfRequests
 				});
 		}

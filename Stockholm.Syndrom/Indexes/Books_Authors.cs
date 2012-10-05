@@ -10,6 +10,7 @@ namespace Stockholm.Syndrom.Indexes
 		{
 			public string AuthorId { get; set; }
 			public int Count { get; set; }
+			public string AuthorName { get; set; }
 		}
 
 		public Books_Authors()
@@ -33,6 +34,15 @@ namespace Stockholm.Syndrom.Indexes
 					         Count = g.Sum(x => x.Count)
 				         };
 
+			TransformResults = (database, results) =>
+			                   from result in results
+			                   let author = database.Load<Author>(result.AuthorId)
+			                   select new
+				                   {
+					                   AuthorName = author.Name,
+					                   result.AuthorId,
+					                   result.Count
+				                   };
 		}
 	}
 }
