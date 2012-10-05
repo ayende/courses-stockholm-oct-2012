@@ -26,5 +26,11 @@ namespace Stockholm.Syndrom.Controllers
 
 			 user.Name = name;
 		 }
+
+		 public void Save2(int id, User user, Guid etag)
+		 {
+			 Session.Advanced.UseOptimisticConcurrency = true;
+			 Session.Store(user, etag, "users/" + id);
+		 }
 	}
 }
